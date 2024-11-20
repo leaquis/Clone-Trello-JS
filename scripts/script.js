@@ -54,3 +54,27 @@ for (let i = 0; i < columns.length; i++) {
     })
     
 }
+
+const addTaskForm = document.querySelector("#add-task-form");
+const addTaskInput = document.querySelector("input");
+
+addTaskForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const newTaskText = addTaskInput.value.trim();
+
+    if (newTaskText !== "") {
+        const newTask = document.createElement("li");
+
+        newTask.textContent = newTaskText;
+        newTask.setAttribute("draggable", true);
+        newTask.addEventListener("dragstart", function(event) {
+            draggedTask = newTask;
+            event.dataTransfer.effectAllowed = "move";
+            event.dataTransfer.setData("text/html", newTask.innerHTML);
+            newTask.classList.add("dragging");
+        });
+
+        document.querySelector("#todo").appendChild(newTask);
+        addTaskInput.value = "";
+    }
+})
